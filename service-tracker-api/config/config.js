@@ -2,7 +2,7 @@ require('dotenv').config();
 
 module.exports = {
     development: {
-        username: "postgres",
+        usename: "postgres",
         password: "admin@123",
         database: "MyServiceTracker",
         host: "127.0.0.1",
