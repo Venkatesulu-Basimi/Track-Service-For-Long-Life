@@ -1,0 +1,147 @@
+<div class="">
+    <app-loader *ngIf="loading"></app-loader>
+    <div class="card-wrapper">
+        <div class="header-wrapper">
+            <span>Add Services</span>
+        </div>
+        <div class="form-wrapper-service">
+            <form [formGroup]="addServiceForm" (ngSubmit)="submitForm()" class="form-horizontal">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="name" class="form-control" id="name" placeholder="Name" />
+                    <label for="name">Name</label>
+                    <div *ngIf="
+              addServiceForm.get('name')?.invalid &&
+              (addServiceForm.get('name')?.dirty ||
+                addServiceForm.get('name')?.touched)
+            " class="text-danger">
+                        <div *ngIf="addServiceForm.get('name')?.errors?.['required']">
+                            Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <select class="form-select" formControlName="Category" id="Category" aria-label="Floating label select example" (change)="onCategoryChange($event)">
+            <option value="" disabled>Select</option>
+            <option *ngFor="let category of categories" [value]="category?.id">
+              {{ category?.name || "" }}
+            </option>
+          </select>
+                    <label for="Category">Category *</label>
+                    <div *ngIf="
+              addServiceForm.get('Category')?.invalid &&
+              (addServiceForm.get('Category')?.dirty ||
+                addServiceForm.get('Category')?.touched)
+            " class="text-danger">
+                        Service type is required.
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select class="form-select" formControlName="subCategory" id="subCategory" aria-label="Floating label select example" (change)="onSubCategoryChange($event)">
+            <option value="" disabled>Select</option>
+            <option *ngFor="let sub of subCategory" [value]="sub?.id">
+              {{ sub?.name || "" }}
+            </option>
+          </select>
+                    <label for="subCategory">Sub Category *</label>
+                    <div *ngIf="
+              addServiceForm.get('subCategory')?.invalid &&
+              (addServiceForm.get('subCategory')?.dirty ||
+                addServiceForm.get('subCategory')?.touched)
+            " class="text-danger">
+                        Sub Category is required.
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select class="form-select" formControlName="lineItemId" id="lineItemId" aria-label="Floating label select example">
+            <option value="" disabled>Select</option>
+            <option *ngFor="let line of lineItems" [value]="line?.id">
+              {{ line?.name || "" }}
+            </option>
+          </select>
+                    <label for="lineItemId">Line Item *</label>
+                    <div *ngIf="
+              addServiceForm.get('lineItemId')?.invalid &&
+              (addServiceForm.get('lineItemId')?.dirty ||
+                addServiceForm.get('lineItemId')?.touched)
+            " class="text-danger">
+                        Line Item is required.
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="servicedDate" class="form-control" id="serviceDate" placeholder="Service Date" />
+                    <label for="serviceDate">Serviced Date *</label>
+                    <div *ngIf="
+              addServiceForm.get('servicedDate')?.invalid &&
+              (addServiceForm.get('servicedDate')?.dirty ||
+                addServiceForm.get('servicedDate')?.touched)
+            " class="text-danger">
+                        Serviced date is required.
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="nextServiceDate" class="form-control" id="nextServiceDate" placeholder="Next Service Date" />
+                    <label for="nextServiceDate">Next Service Date</label>
+                    <div *ngIf="
+              addServiceForm.get('nextServiceDate')?.invalid &&
+              (addServiceForm.get('nextServiceDate')?.dirty ||
+                addServiceForm.get('nextServiceDate')?.touched)
+            " class="text-danger">
+                        Next service date is required.
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="servicedContactNumber" class="form-control" id="servicedContactNumber" placeholder="Contact Number" />
+                    <label for="servicedContactNumber">Contact Number</label>
+                    <div *ngIf="
+              addServiceForm.get('servicedContactNumber')?.invalid &&
+              (addServiceForm.get('servicedContactNumber')?.dirty ||
+                addServiceForm.get('servicedContactNumber')?.touched)
+            " class="text-danger">
+                        <div *ngIf="addServiceForm.get('servicedContactNumber')?.errors?.['maxlength']||addServiceForm.get('servicedContactNumber')?.errors?.['minlength']">
+                            Please enter valid contact number
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="servicedBy" class="form-control" id="servicedBy" placeholder="Serviced By" />
+                    <label for="servicedBy">Serviced By</label>
+                    <div *ngIf="
+              addServiceForm.get('servicedBy')?.invalid &&
+              (addServiceForm.get('servicedBy')?.dirty ||
+                addServiceForm.get('servicedBy')?.touched)
+            " class="text-danger">
+                        <div *ngIf="addServiceForm.get('servicedBy')?.errors?.['required']">
+                            Serviced By is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="servicedVendor" class="form-control" id="servicedVendor" placeholder="Serviced Vendor" />
+                    <label for="servicedVendor">Serviced Vendor</label>
+                    <div *ngIf="
+              addServiceForm.get('servicedVendor')?.invalid &&
+              (addServiceForm.get('servicedVendor')?.dirty ||
+                addServiceForm.get('servicedVendor')?.touched)
+            " class="text-danger">
+                        <div *ngIf="addServiceForm.get('servicedVendor')?.errors?.['required']">
+                            Serviced Vendor is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" formControlName="notes" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <label for="floatingTextarea2">Notes</label>
+                </div>
+                <div class="submit-button-wrapper">
+                    <button type="submit" [ngClass]="['btn', 'btn-primary', 'p-3', dynamicClass]" [disabled]="!addServiceForm.valid">
+            Submit
+          </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="loading">
+    <ngx-loading [show]="loading"></ngx-loading>
+
+    <div class="main">
+        <div class="sign-in">
+            <div class="container">
+                <div class="signin-content d-flex">
+                    <div class="signin-image">
+                        <div>
+                            <img src="https://static.vecteezy.com/system/resources/previews/003/689/220/large_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
+                                alt="sing up image" />
+                        </div>
+                        <a routerLink="/signup" class="signup-image-link">Create an account</a
+            >
+          </div>
+
+          <div class="signin-form">
+            <h2 class="form-title">Sign in</h2>
+            <form
+              class="register-form"
+              id="login-form"
+              [formGroup]="loginForm"
+              (ngSubmit)="submitForm()"
+            >
+              <div class="mb-4">
+                <div class="form-group mb-0">
+                  <label for="your_name">
+                    <i class="zmdi zmdi-account material-icons-name"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="your_name"
+                    id="your_name"
+                    placeholder="User Name"
+                    formControlName="userName"
+                  />
+                </div>
+                <div>
+                  <span
+                    class="text-danger"
+                    *ngIf="loginForm?.controls?.['userName']?.touched&&loginForm?.controls?.['userName']?.errors?.['required']"
+                  >
+                    Enter username
+                  </span>
+                </div>
+              </div>
+              <div class="mb-4">
+                <div class="form-group mb-0">
+                  <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                  <input
+                    type="password"
+                    name="your_pass"
+                    id="your_pass"
+                    placeholder="Password"
+                    formControlName="password"
+                  />
+                </div>
+                <span
+                  class="text-danger"
+                  *ngIf="loginForm?.controls?.['password']?.touched&&loginForm?.controls?.['password']?.errors?.['required']"
+                >
+                  Enter password
+                </span>
+              </div>
+
+              <div class="form-group mb-0">
+                <input
+                  type="checkbox"
+                  name="remember-me"
+                  id="remember-me"
+                  class="agree-term"
+                  formControlName="remember"
+                />
+                <label for="remember-me" class="label-agree-term"
+                  ><span><span></span></span>Remember me</label
+                >
+              </div>
+              <div class="form-group form-button">
+                <input
+                  type="submit"
+                  name="signin"
+                  id="signin"
+                  [ngClass]="['form-submit', dynamicClass]"
+                  value="Log in"
+                  [disabled]="!loginForm.valid"
+                />
+              </div>
+            </form>
+            <div class="social-login">
+              <span class="social-label">Or login with</span>
+              <div class="socials">
+                <div class="zmdi-facebookk">
+                  <a href="#"
+                    ><i class="display-flex-center zmdi zmdi-facebook"></i
+                  ></a>
+                    </div>
+                    <div class="zmdi-twitterr">
+                        <a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i
+                  ></a>
+                    </div>
+                    <div class="zmdi-googlee">
+                        <a href="#"><i class="display-flex-center zmdi zmdi-google"></i
+                  ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>

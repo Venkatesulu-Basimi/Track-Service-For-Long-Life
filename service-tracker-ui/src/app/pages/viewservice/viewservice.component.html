@@ -1,0 +1,141 @@
+<div class="upcoming-wrapper col-sm-12">
+    <p class="header-wrapper-upcoming">Services</p>
+    <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed" [nzScroll]="{ y: '240px' }" [nzPageSize]="5">
+        <thead>
+            <tr>
+                <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+                    {{ column.title }}
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of sortTable.data">
+                <td>{{ data.name }}</td>
+                <td>{{ data.Category.name }}</td>
+                <td>{{ data.SubCategory.name }}</td>
+                <td>{{ data.LineItem.name }}</td>
+                <td>{{ formatDate(data.servicedDate) }}</td>
+                <td>{{ formatDate(data.nextServiceDate) }}</td>
+                <td>{{ data.servicedBy }}</td>
+                <td>{{ data.servicedContactNumber }}</td>
+                <td>{{ data.servicedVendor }}</td>
+                <td>
+                    <a (click)="warning(data.id)">Delete</a> |
+                    <a (click)="showModal(data)">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <nz-modal [(nzVisible)]="isVisible" [nzFooter]="modalFooter" nzTitle="Edit Service" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+        <ng-container *nzModalContent>
+            <div class="form-wrapper-service">
+                <form [formGroup]="editServiceForm" (ngSubmit)="submitForm()" class="form-horizontal">
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="name" class="form-control" id="name" placeholder="Name" />
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" formControlName="Category" id="Category" aria-label="Floating label select example" [disabled]="true">
+              <option [value]="editData?.Category?.id" disabled>
+                {{ editData?.Category?.name }}
+              </option>
+            </select>
+                        <label for="Category">Category *</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" formControlName="subCategory" id="subCategory" aria-label="Floating label select example">
+              <option [value]="editData?.SubCategory?.id" disabled>
+                {{ editData?.SubCategory?.name }}
+              </option>
+            </select>
+                        <label for="subCategory">Sub Category *</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" formControlName="lineItemId" id="lineItemId" aria-label="Floating label select example">
+              <option [value]="editData?.LineItem?.id" disabled>
+                {{ editData?.LineItem?.name }}
+              </option>
+            </select>
+                        <label for="lineItemId">Line Item *</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="date" formControlName="servicedDate" class="form-control" id="serviceDate" placeholder="Service Date" />
+                        <label for="serviceDate">Serviced Date *</label>
+                        <div *ngIf="
+                editServiceForm.get('servicedDate')?.invalid &&
+                (editServiceForm.get('servicedDate')?.dirty ||
+                  editServiceForm.get('servicedDate')?.touched)
+              " class="text-danger">
+                            Serviced date is required.
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="date" formControlName="nextServiceDate" class="form-control" id="nextServiceDate" placeholder="Next Service Date" />
+                        <label for="nextServiceDate">Next Service Date</label>
+                        <div *ngIf="
+                editServiceForm.get('nextServiceDate')?.invalid &&
+                (editServiceForm.get('nextServiceDate')?.dirty ||
+                  editServiceForm.get('nextServiceDate')?.touched)
+              " class="text-danger">
+                            Next service date is required.
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="servicedContactNumber" class="form-control" id="servicedContactNumber" placeholder="Contact Number" />
+                        <label for="servicedContactNumber">Contact Number</label>
+                        <div *ngIf="
+                editServiceForm.get('servicedContactNumber')?.invalid &&
+                (editServiceForm.get('servicedContactNumber')?.dirty ||
+                  editServiceForm.get('servicedContactNumber')?.touched)
+              " class="text-danger">
+                            <div *ngIf="editServiceForm.get('servicedContactNumber')?.errors?.['maxlength']||editServiceForm.get('servicedContactNumber')?.errors?.['minlength']">
+                                Please enter valid contact number
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="servicedBy" class="form-control" id="servicedBy" placeholder="Serviced By" />
+                        <label for="servicedBy">Serviced By</label>
+                        <div *ngIf="
+                editServiceForm.get('servicedBy')?.invalid &&
+                (editServiceForm.get('servicedBy')?.dirty ||
+                  editServiceForm.get('servicedBy')?.touched)
+              " class="text-danger">
+                            <div *ngIf="editServiceForm.get('servicedBy')?.errors?.['required']">
+                                Serviced By is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="servicedVendor" class="form-control" id="servicedVendor" placeholder="Serviced Vendor" />
+                        <label for="servicedVendor">Serviced Vendor</label>
+                        <div *ngIf="
+                editServiceForm.get('servicedVendor')?.invalid &&
+                (editServiceForm.get('servicedVendor')?.dirty ||
+                  editServiceForm.get('servicedVendor')?.touched)
+              " class="text-danger">
+                            <div *ngIf="editServiceForm.get('servicedVendor')?.errors?.['required']">
+                                Serviced Vendor is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" formControlName="notes" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Notes</label>
+                    </div>
+                    <div class="submit-button-wrapper d-flex justify-content-end">
+                        <button type="submit" [ngClass]="['btn', 'btn-primary', 'p-3']" [disabled]="!editServiceForm.valid">
+              Save
+            </button>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+        <ng-template #modalFooter> </ng-template>
+    </nz-modal>
+</div>

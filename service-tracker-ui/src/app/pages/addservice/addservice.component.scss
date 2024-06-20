@@ -1,0 +1,38 @@
+.card-wrapper {
+    margin: 50px;
+    border-radius: 20px;
+    // border: 1px solid;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 5px 22px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    margin-bottom: 10px;
+}
+
+.header-wrapper {
+    padding: 20px;
+    // padding-top: 10px;
+    border-bottom: 1px solid #b4b1b1;
+    span {
+        font-size: 16px;
+        font-weight: 500;
+        font-family: Poppins;
+    }
+}
+
+.form-wrapper-service {
+    padding: 20px 20px;
+    border-bottom: 1px solid #b4b1b1;
+}
+
+.submit-button-wrapper {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.disable-button {
+    cursor: not-allowed;
+}
+
+.backdrop[_ngcontent-ng-c1393073753] {
+    position: fixed !important;
+    background-color: aquamarine !important;
+}

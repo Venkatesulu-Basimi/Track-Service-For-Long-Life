@@ -1,0 +1,82 @@
+<div class="main">
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Sign up</h2>
+                    <form [formGroup]="signUpForm" (ngSubmit)="submitForm()" class="register-form" id="register-form">
+                        <div class="form-group mb-0">
+                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i
+              ></label>
+                            <input type="text" name="name" id="name" placeholder="Your Name" formControlName="name" />
+                        </div>
+                        <span *ngIf="signUpForm?.controls?.['name']?.touched&&signUpForm?.controls?.['name']?.errors?.['required']" class="text-danger">
+              Name is Required
+            </span>
+                        <div class="form-group mb-0 mt-3">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input type="email" name="email" id="email" placeholder="Your Email" formControlName="email" />
+                        </div>
+                        <span *ngIf="signUpForm?.controls?.['email']?.touched&&signUpForm?.controls?.['email']?.errors?.['required']" class="text-danger">
+              Email is Required
+            </span>
+                        <div class="form-group mb-0 mt-3">
+                            <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="pass" id="pass" placeholder="Password" formControlName="password" />
+                        </div>
+                        <div *ngIf="
+                signUpForm.get('password')?.invalid &&
+                signUpForm.get('password')?.touched
+              ">
+                            <div *ngIf="signUpForm.get('password')?.errors?.['required']" class="text-danger">
+                                Password is required.
+                            </div>
+                            <div *ngIf="signUpForm.get('password')?.errors?.['minlength']" class="text-danger">
+                                Password must be at least 8 characters long.
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 mt-3">
+                            <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i
+              ></label>
+                            <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" formControlName="confirmPassword" />
+                        </div>
+                        <div *ngIf="
+                signUpForm?.errors?.['mismatch'] &&
+                signUpForm.get('confirmPassword')?.touched
+              " class="text-danger">
+                            Passwords must match.
+                        </div>
+                        <div class="form-group mb-0 mt-3">
+                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" formControlName="terms" />
+                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in
+                <a class="term-service">Terms of service</a></label
+              >
+            </div>
+
+            <div class="form-group form-button mb-0 mt-3">
+              <input
+                type="submit"
+                name="signup"
+                id="signup"
+                [ngClass]="['form-submit', dynamicClass]"
+                value="Register"
+                [disabled]="!signUpForm.valid"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="signup-image">
+          <figure>
+            <img
+              alt="sing up image"
+              src="https://static.vecteezy.com/system/resources/previews/003/689/228/large_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
+            />
+          </figure>
+          <a routerLink="/login" class="signup-image-link"
+            >I am already member</a
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

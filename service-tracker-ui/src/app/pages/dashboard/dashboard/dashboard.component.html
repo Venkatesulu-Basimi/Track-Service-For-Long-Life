@@ -1,0 +1,81 @@
+<div>
+    <div class="d-flex">
+        <div>
+            <canvasjs-chart [options]="chartOptions" [styles]="{ width: '100%', height: '360px' }"></canvasjs-chart>
+        </div>
+    </div>
+    <div>
+        <canvasjs-chart [options]="barChartOptions" [styles]="{ width: '100%', height: '360px' }"></canvasjs-chart>
+    </div>
+
+    <div class="inner-content d-flex justify-content-between row">
+        <div class="card-wrapper col-sm-12 col-md-3">
+            <div class="inside-card">
+                <div>
+                    <p class="text-card">Service OverView</p>
+                    <p class="text-card money-card">$24.7K</p>
+                </div>
+                <div>
+                    <nz-avatar [nzSize]="54" nzText="A" style="background-color: #87d068; font-size: 30px"></nz-avatar>
+                </div>
+            </div>
+            <span>12% since last month</span>
+        </div>
+        <div class="card-wrapper col-sm-12 col-md-3">
+            <div class="inside-card">
+                <div>
+                    <p class="text-card">Upcoming Service</p>
+                    <p class="text-card money-card">$24.7K</p>
+                </div>
+                <div>
+                    <nz-avatar [nzSize]="54" nzText="$" style="background-color: #87d068; font-size: 30px"></nz-avatar>
+                </div>
+            </div>
+            <span>12% since last month</span>
+        </div>
+        <div class="card-wrapper col-sm-12 col-md-3">
+            <div class="inside-card">
+                <div>
+                    <p class="text-card">Activities Card</p>
+                    <p class="text-card money-card">$24.7K</p>
+                </div>
+                <div>
+                    <nz-avatar [nzSize]="54" nzText="$" style="background-color: #87d068; font-size: 30px"></nz-avatar>
+                </div>
+            </div>
+            <span>12% since last month</span>
+        </div>
+        <div class="card-wrapper col-sm-12 col-md-3">
+            <div class="inside-card">
+                <div>
+                    <p class="text-card">BUDGET</p>
+                    <p class="text-card money-card">$24.7K</p>
+                </div>
+                <div>
+                    <nz-avatar [nzSize]="54" nzText="$" style="background-color: #87d068; font-size: 30px"></nz-avatar>
+                </div>
+            </div>
+            <span>12% since last month</span>
+        </div>
+    </div>
+    <div class="upcoming-wrapper col-sm-12">
+        <p class="header-wrapper-upcoming">Upcoming Services</p>
+        <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed" [nzScroll]="{ y: '240px' }" [nzPageSize]="5">
+            <thead>
+                <tr>
+                    <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+                        {{ column.title }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of sortTable.data">
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.chinese }}</td>
+                    <td>{{ data.math }}</td>
+                    <td>{{ data.english }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

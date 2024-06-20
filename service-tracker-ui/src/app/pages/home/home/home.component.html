@@ -1,0 +1,61 @@
+<nz-layout class="layout">
+    <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0" class="slider-wraper">
+        <div class="logo">Service Tracker</div>
+        <ul nz-menu nzTheme="dark" nzMode="inline" class="mt-5">
+            <li nz-menu-item nzSelected routerLink="/">
+                <i class="zmdi zmdi-view-dashboard"></i>
+                <span class="nav-text-header">Dashboard</span>
+            </li>
+            <li nz-menu-item routerLink="add-service">
+                <i class="zmdi zmdi-collection-plus"></i>
+                <span class="nav-text-header">Add Service</span>
+            </li>
+            <li nz-menu-item routerLink="view-service">
+                <i class="zmdi zmdi-view-list"></i>
+                <span class="nav-text-header">View Service</span>
+            </li>
+            <li nz-menu-item routerLink="profile">
+                <i class="zmdi zmdi-account-circle"></i>
+                <span class="nav-text-header">Profile</span>
+            </li>
+        </ul>
+    </nz-sider>
+
+    <nz-layout>
+        <nz-header>
+            <div class="header-wrapper shadow-sm">
+                <div></div>
+                <div class="profile-wrapper">
+                    <i style="font-size: 18px; margin-right: 15px" class="fa-solid fa-user-group"></i>
+                    <i style="font-size: 20px; margin-right: 15px" class="fa-regular fa-bell"></i>
+
+                    <div class="btn-group" dropdown>
+                        <span dropdownToggle>
+              <nz-avatar
+                nzIcon="user"
+                nzSrc="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671122.jpg"
+                nzSize="large"
+              ></nz-avatar>
+            </span>
+                        <div *dropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="button-basic">
+                            <li role="menuitem">
+                                <a class="dropdown-item" (click)="navigateToProfile()">
+                                    <i class="zmdi zmdi-account-circle"></i> Profile</a>
+                            </li>
+
+                            <li class="divider dropdown-divider"></li>
+                            <li role="menuitem">
+                                <a class="dropdown-item" (click)="logout()">
+                                    <i class="zmdi zmdi-long-arrow-left"></i> Logout</a>
+                            </li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nz-header>
+        <nz-content>
+            <router-outlet></router-outlet>
+        </nz-content>
+        <nz-footer>Service Tracker ©2024 Implement By Developer</nz-footer>
+    </nz-layout>
+</nz-layout>
