@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     servicedBy: DataTypes.STRING,
     servicedContactNumber: DataTypes.STRING,
     servicedVendor: DataTypes.STRING,
-    nextServiceDate: DataTypes.DATE
+    nextServiceDate: DataTypes.DATE,
+    deletedAt: DataTypes.DATE,
+    deletedBy: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Services',
