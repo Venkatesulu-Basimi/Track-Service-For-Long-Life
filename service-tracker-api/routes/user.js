@@ -1,20 +1,37 @@
 const express = require('express');
 const router = express.Router();
-const { register, login } = require('../controllers/user')
+const { register, login, getUser, updateUser, passwordReset, listUsers } = require('../controllers/user')
 
 const Joi = require('joi');
 
 const userSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
+  password: Joi.string().required()
 });
 
 const registerSchema = Joi.object({
     userName: Joi.string().required(),
     email: Joi.string().email().required(),
-    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+    password: Joi.string().required(),
     confirmPassword: Joi.ref('password')
-}).with('password', 'confirmPassword');;
+}).with('password', 'confirmPassword');
+
+
+const updateProfileSchema = Joi.object({
+    userName: Joi.string(),
+    email: Joi.string().email(),
+    phoneNumber: Joi.string(),
+    dateOfBirth: Joi.string(),
+    address: Joi.string(),
+    country: Joi.string(),
+    pinCode: Joi.number()
+});
+
+const resetPasswordSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+    confirmPassword: Joi.ref('password')
+}).with('password', 'confirmPassword');
 
 async function registerUser(req, res) {
     try {
@@ -24,8 +41,8 @@ async function registerUser(req, res) {
             throw new Error(error.details[0].message);
         }
         const result = await register(data);
-        res.status(result.statusCode);
-        res.send(result.message);
+        res.status(result.statusCode || 200);
+        res.send(result.message || result);
     } catch (error) {
         res.statusCode = 400;
         res.send({
@@ -42,8 +59,71 @@ async function loginUser(req, res) {
             throw new Error(error.details[0].message);
         }
         const result = await login(data);
-        res.status(result.statusCode);
-        res.send(result.message);
+        res.status(result.statusCode || 200);
+        res.send(result.message || result);
+    } catch (error) {
+        res.statusCode = 400;
+        res.send({
+            error: error.message
+        })
+    }
+}
+
+async function getProfile(req, res) {
+    try {
+        const data = req.userId;
+        const result = await getUser(data);
+        res.status(result.statusCode || 200);
+        res.send(result.message || result);
+    } catch (error) {
+        res.statusCode = 400;
+        res.send({
+            error: error.message
+        })
+    }
+}
+
+async function updateProfile(req, res) {
+    try {
+        const data = req.body;
+        const { error, value } = updateProfileSchema.validate(data);
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+        const result = await updateUser(data, req.userId);
+        res.status(result.statusCode || 200);
+        res.send(result.message || result);
+    } catch (error) {
+        res.statusCode = 400;
+        res.send({
+            error: error.message
+        })
+    }
+}
+
+async function resetPassword(req, res) {
+    try {
+        const data = req.body;
+        const { error, value } = resetPasswordSchema.validate(data);
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+        const result = await passwordReset(data.email, data.password, data.confirmPassword);
+        res.status(result.statusCode || 200);
+        res.send(result.message || result);
+    } catch (error) {
+        res.statusCode = 400;
+        res.send({
+            error: error.message
+        })
+    }
+}
+
+async function userListing(req, res) {
+    try {
+        const result = await listUsers();
+        res.status(result.statusCode || 200);
+        res.send(result.message || result);
     } catch (error) {
         res.statusCode = 400;
         res.send({
@@ -54,5 +134,9 @@ async function loginUser(req, res) {
 
 module.exports = exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getProfile,
+    updateProfile,
+    resetPassword,
+    userListing
 };
