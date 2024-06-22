@@ -20,6 +20,6 @@ router.get('/services', validateToken, checkRole(['User']), getServices)  // Get
 router.put('/services/:serviceId', validateToken, checkRole(['User']), updateServices)
 router.delete('/services/:serviceId', validateToken, checkRole(['User']), deleteService)
 
-router.get('/users', checkRole(['Admin']), userListing);
+router.get('/users', validateToken, checkRole(['Admin']), userListing);
 
 module.exports = router;

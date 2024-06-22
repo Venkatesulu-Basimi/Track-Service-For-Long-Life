@@ -9,7 +9,8 @@ const addServiceSchema = Joi.object({
     servicedBy: Joi.string(),
     servicedContactNumber: Joi.string(),
     servicedVendor: Joi.string(),
-    nextServiceDate: Joi.date()
+    nextServiceDate: Joi.date(),
+    notes: Joi.string()
   });
 
 
@@ -59,7 +60,12 @@ async function getServices(req, res) {
 async function updateServices(req, res) {
     try {
         const serviceId = req.params.serviceId
-        const result = await editService(req.body, serviceId);
+        const data = req.body;
+        const { error, value } = updateServiceSchema.validate(data);
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+        const result = await editService(data, serviceId);
         res.status(result.statusCode || 200);
         res.send(result.message || result);
     } catch (error) {

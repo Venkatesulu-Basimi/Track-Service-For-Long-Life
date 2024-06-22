@@ -54,6 +54,7 @@ async function getServiceListing(userId) {
         nextServiceDate: ele.nextServiceDate,
         createdAt: ele.createdAt,
         updatedAt: ele.updatedAt,
+        notes: ele.notes,
         LineItem: {
           id: ele.LineItem.id,
           name: ele.LineItem.name
