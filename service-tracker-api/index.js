@@ -7,12 +7,7 @@ const logger = require('./services/logger');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
-    allowedHeaders: '*',
-    exposedHeaders: '*'
-}))
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Hello MyServiceTracker')

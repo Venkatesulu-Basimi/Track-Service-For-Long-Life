@@ -5,6 +5,7 @@ const addServiceSchema = Joi.object({
     userId: Joi.number().label('User Id').required(),
     name: Joi.string().required(),
     lineItemId: Joi.number().label('LineItem Id').required(),
+    amount:Joi.number(),
     servicedDate: Joi.date(),
     servicedBy: Joi.string(),
     servicedContactNumber: Joi.string(),
@@ -18,6 +19,7 @@ const updateServiceSchema = Joi.object({
     serviceId: Joi.number().label('Service Id').required(),
     name: Joi.string(),
     lineItemId: Joi.number().label('LineItem Id'),
+    amount: Joi.number(),
     servicedDate: Joi.date(),
     servicedBy: Joi.string(),
     servicedContactNumber: Joi.string(),
@@ -46,7 +48,7 @@ async function addServices(req, res) {
 
 async function getServices(req, res) {
     try {
-        const result = await getServiceListing(req.userId);
+        const result = await getServiceListing(req.query, req.userId);
         res.status(result.statusCode || 200);
         res.send(result.message || result);
     } catch (error) {

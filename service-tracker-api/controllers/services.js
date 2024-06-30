@@ -1,5 +1,6 @@
 const models = require("../models");
 const logger = require('../services/logger');
+const Op = require('sequelize').Op;
 
 async function createService(data) {
   try {
@@ -16,7 +17,7 @@ async function createService(data) {
   }
 }
 
-async function getServiceListing(userId) {
+async function getServiceListing(data, userId) {
   try {
     let queryObj = {}
     const userExists = await models.User.findByPk(userId);
@@ -24,6 +25,25 @@ async function getServiceListing(userId) {
 
     if(userExists.role === 'User') {
       queryObj.userId = userId
+    }
+    if(data.categoryId) {
+      let subCategories = await models.SubCategory.findAll({
+        where: {
+          categoryId: data.categoryId
+        }
+      })
+      subCategories = subCategories.map(ele => ele.id)
+      let lineItemIds = await models.LineItems.findAll({
+        where: {
+          subCategoryId: {
+            [Op.in]: subCategories
+          }
+        }
+      })
+      lineItemIds = lineItemIds.map(ele => ele.id)
+      queryObj.lineItemId = {
+        [Op.in]: lineItemIds
+      }
     }
     const services = await models.Services.findAll({
       include: [
@@ -51,6 +71,7 @@ async function getServiceListing(userId) {
         id: ele.id,
         userId: ele.userId,
         name: ele.name,
+        amount: ele.amount,
         servicedDate: ele.servicedDate,
         servicedBy: ele.servicedBy,
         servicedContactNumber: ele.servicedContactNumber,
