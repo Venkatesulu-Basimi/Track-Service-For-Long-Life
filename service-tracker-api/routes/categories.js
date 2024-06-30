@@ -1,4 +1,4 @@
-const { listCategories, listSubCategories, listLineItems } = require('../controllers/categories')
+const { listCategories, listSubCategories, listLineItems, listAdminSubCategories } = require('../controllers/categories')
 
 async function categoriesListing(req, res) {
     try {
@@ -38,8 +38,21 @@ async function lineItemsListing(req, res) {
     }
 }
 
+async function getAdminSubCategories(req, res) {
+    try {
+        const result = await listAdminSubCategories();
+        res.send(result);
+    } catch(error) {
+        res.statusCode = 400;
+        res.send({
+            error: error.message
+        })
+    }
+}
+
 module.exports = {
     categoriesListing,
     subcategoriesListing,
-    lineItemsListing
+    lineItemsListing,
+    getAdminSubCategories
 }
