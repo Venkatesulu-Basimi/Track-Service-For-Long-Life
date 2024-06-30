@@ -1,12 +1,12 @@
 const models =  require('../models');
-
+const logger = require('../services/logger');
 
 async function listCategories() {
     try {
         const categories = await models.Category.findAll()
         return categories;
     } catch (error) {
-        console.log(error);
+        logger.error(error);
         throw error;
     }
 }

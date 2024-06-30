@@ -1,5 +1,5 @@
 const models = require("../models");
-const { validateToken } = require("./user");
+const logger = require('../services/logger');
 
 async function createService(data) {
   try {
@@ -17,8 +17,13 @@ async function createService(data) {
 
 async function getServiceListing(userId) {
   try {
+    let queryObj = {}
     const userExists = await models.User.findByPk(userId);
     if (!userExists) throw new Error("User not Exists");
+
+    if(userExists.role === 'User') {
+      queryObj.userId = userId
+    }
     const services = await models.Services.findAll({
       include: [
         {
@@ -38,9 +43,7 @@ async function getServiceListing(userId) {
           ]
         }
       ],
-      where: {
-        userId: userId
-      }
+      where: queryObj
     })
     const result = services.map(ele => {
       return ({

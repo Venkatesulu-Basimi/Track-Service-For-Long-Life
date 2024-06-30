@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     servicedContactNumber: DataTypes.STRING,
     servicedVendor: DataTypes.STRING,
     nextServiceDate: DataTypes.DATE,
+    amount: DataTypes.INTEGER,
     deletedAt: DataTypes.DATE,
     deletedBy: DataTypes.INTEGER
   }, {
