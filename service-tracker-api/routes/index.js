@@ -4,6 +4,7 @@ const { registerUser, loginUser, getProfile, updateProfile, resetPassword, userL
 const { categoriesListing, subcategoriesListing, lineItemsListing } = require('./categories')
 const { addServices, getServices, updateServices, deleteService } = require('./services')
 const { validateToken, checkRole } = require('../controllers/user')
+const { getDataCategoriesWise, getTotalSumUsers } = require('./dashboard');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -16,10 +17,13 @@ router.get('/subCategories', validateToken, subcategoriesListing)
 router.get('/lineItems', validateToken, lineItemsListing)
 
 router.post('/services', validateToken, checkRole(['User']), addServices)
-router.get('/services', validateToken, checkRole(['User']), getServices)  // Get all services related to user
+router.get('/services', validateToken, getServices) 
 router.put('/services/:serviceId', validateToken, checkRole(['User']), updateServices)
 router.delete('/services/:serviceId', validateToken, checkRole(['User']), deleteService)
 
 router.get('/users', validateToken, checkRole(['Admin']), userListing);
 
+// Dashboard APIs
+router.get('/getDataCategoriesWise', validateToken, getDataCategoriesWise);
+router.get('/totalCountUsers', validateToken, getTotalSumUsers);
 module.exports = router;

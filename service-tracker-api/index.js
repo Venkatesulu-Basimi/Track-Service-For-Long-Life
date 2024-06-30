@@ -14,7 +14,7 @@ app.use(cors({
 }))
 
 app.get('/', (req, res) => {
-    res.send('Hello MyFBuddy')
+    res.send('Hello MyServiceTracker')
 })
 
 app.use('/', routeHandler)
