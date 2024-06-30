@@ -47,8 +47,26 @@ async function listLineItems(data) {
     }
 }
 
+async function listAdminSubCategories() {
+    try {
+        const subCategories = await models.SubCategory.findAll({
+            include: [
+                {
+                    model: models.Category
+                }
+            ]
+        })
+        logger.info('Subcategories listed');
+        return subCategories;
+    } catch (error) {
+        logger.error(error);
+         throw error;
+    }
+}
+
 module.exports = {
     listCategories,
     listSubCategories,
-    listLineItems
+    listLineItems,
+    listAdminSubCategories
 }

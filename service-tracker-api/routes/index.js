@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser, getProfile, updateProfile, resetPassword, userListing } = require('./user')
-const { categoriesListing, subcategoriesListing, lineItemsListing } = require('./categories')
+const { categoriesListing, subcategoriesListing, lineItemsListing, getAdminSubCategories } = require('./categories')
 const { addServices, getServices, updateServices, deleteService } = require('./services')
 const { validateToken, checkRole } = require('../controllers/user')
 const { getDataCategoriesWise, getTotalSumUsers, getLocalServices } = require('./dashboard');
@@ -28,5 +28,5 @@ router.get('/getDataCategoriesWise', validateToken, getDataCategoriesWise);
 router.get('/totalCountUsers', validateToken, getTotalSumUsers);
 
 router.get('/getLocalServices', getLocalServices);
-
+router.get('/adminSubCategories', getAdminSubCategories);
 module.exports = router;
