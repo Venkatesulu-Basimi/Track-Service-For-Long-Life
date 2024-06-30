@@ -49,9 +49,10 @@ async function listDataCategoriesWise(userId) {
       return acc;
     }, {});
 
+    logger.info(`Service Data listed category wise`)
     return response;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw error;
   }
 }
@@ -163,7 +164,7 @@ async function listTotalSumUsers(userId) {
       return (totalAmount += parseFloat(item));
     }, 0);
     
-    // logger.info(`Total amount fetched successfuly`);
+    logger.info(`Total count fetched successfuly`);
     return {
         totalServiceCount: serviceExists.count,
         totalAmount: serviceAmount,
@@ -172,7 +173,7 @@ async function listTotalSumUsers(userId) {
         upcomingServices: upcomingServicesResult
     };
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw error;
   }
 }

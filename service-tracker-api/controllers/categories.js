@@ -13,15 +13,20 @@ async function listCategories() {
 
 async function listSubCategories(data) {
     try {
-        if (!data.categoryId) throw new Error('CategoryId is required');
+        if (!data.categoryId) {
+            throw new Error('CategoryId is required');
+        }
         const categoryExists = await models.Category.findByPk(data.categoryId);
-        if (!categoryExists) throw new Error('Category does not exists');
+        if (!categoryExists) {
+            throw new Error('Category does not exists');
+        }
         const subCategories = await models.SubCategory.findAll({
             where: { categoryId: data.categoryId }
         })
+        logger.info('Subcategories listed');
         return subCategories;
     } catch (error) {
-         console.log(error);
+        logger.error(error);
          throw error;
     }
 }
@@ -34,9 +39,10 @@ async function listLineItems(data) {
         const lineItems = await models.LineItems.findAll({
             where: { subCategoryId: data.subCategoryId }
         })
+        logger.info('Line Items listed');
         return lineItems;
     } catch (error) {
-         console.log(error);
+        logger.error(error);
          throw error;
     }
 }

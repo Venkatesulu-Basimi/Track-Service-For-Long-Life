@@ -8,9 +8,10 @@ async function createService(data) {
     const lineItemExists = await models.LineItems.findByPk(data.lineItemId);
     if (!lineItemExists) throw new Error("Line Item does not exists");
     const service = await models.Services.create(data);
+    logger.info(`Service created successfully`);
     return service;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     throw error;
   }
 }
@@ -72,9 +73,10 @@ async function getServiceListing(userId) {
         }
       })
     })
+    logger.info(`Services listed successfully`);
     return result
   } catch(error) {
-    console.log(error);
+    logger.error(error);
     throw error;
   }
 }
@@ -88,9 +90,10 @@ async function editService(data, serviceId) {
       if (!lineItemExists) throw new Error("Line Item does not exists");
     }
     const service = await models.Services.update(data, { where: { id: serviceId }});
+    logger.info(`Service updated successfully`);
     return service;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     throw error;
   }
 }
@@ -100,9 +103,10 @@ async function servicesDelete(serviceId, userId) {
     const serviceExists = await models.Services.findByPk(serviceId);
     if (!serviceExists) throw new Error("Service not Exists");
     await models.Services.destroy({ where: { id: serviceId }});
+    logger.info(`Services deleted successfully`);
     return serviceId;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     throw error;
   }
 }
