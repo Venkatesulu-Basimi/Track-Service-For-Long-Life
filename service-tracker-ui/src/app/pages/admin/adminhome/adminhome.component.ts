@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
+import { StorageServiceUser } from '../../../auth/auth';
+import {
+  ActivatedRoute,
+  Router,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import {
-  RouterOutlet,
-  RouterModule,
-  Router,
-  ActivatedRoute,
-} from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { StorageServiceUser } from '../../../auth/auth';
 
 interface DataItem {
   name: string;
@@ -26,7 +26,7 @@ interface DataItem {
 }
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-adminhome',
   standalone: true,
   imports: [
     CommonModule,
@@ -44,10 +44,10 @@ interface DataItem {
     NzDropDownModule,
     BsDropdownModule,
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: './adminhome.component.html',
+  styleUrl: './adminhome.component.scss',
 })
-export class HomeComponent {
+export class AdminhomeComponent {
   userDetails;
   constructor(
     private userStorage: StorageServiceUser,
@@ -58,14 +58,6 @@ export class HomeComponent {
   }
   navigateToProfile() {
     this.router.navigateByUrl('/profile');
-  }
-
-  images = { src: '../../../../assests/images/logo.png' }; // Correct path to your local image
-  ngOnInit(): void {
-    // Get the full URL path
-    this.router.events.subscribe(() => {
-      console.log('Full URL Path:', this.router.url);
-    });
   }
 
   logout() {

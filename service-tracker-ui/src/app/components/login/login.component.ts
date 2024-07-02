@@ -76,7 +76,12 @@ export class LoginComponent {
           const { token, ...rest } = data;
           this.userStorage.saveTokenValue(data?.token);
           this.userStorage.saveCurrentUser(rest);
-          this.router.navigateByUrl('/dashboard');
+          if (rest?.role === 'Admin') {
+            this.router.navigateByUrl('/admindashboard');
+          } else {
+            this.router.navigateByUrl('/dashboard');
+          }
+
           this.toastr.success(data?.message, 'Success');
           this.loading = false;
         },

@@ -1,0 +1,26 @@
+<div class="upcoming-wrapper col-sm-12">
+    <app-loader *ngIf="loading"></app-loader>
+    <nz-table #basicTable [nzData]="listOfData" nzTableLayout="fixed" [nzScroll]="{ y: '100%' }" [nzPageSize]="10">
+        <thead>
+            <tr>
+                <th *ngFor="let column of listOfColumn">
+                    {{ column.title }}
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{ data?.userName || "-" }}</td>
+                <td>{{ data?.email || "-" }}</td>
+                <td>{{ data?.phoneNumber || "-" }}</td>
+                <td>{{ data?.dateOfBirth ? formatDate(data?.dateOfBirth) : "-" }}</td>
+                <td>{{ data?.address || "-" }}</td>
+                <td>{{ data?.country || "-" }}</td>
+                <td>{{ data?.pincode || "-" }}</td>
+
+                <td></td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

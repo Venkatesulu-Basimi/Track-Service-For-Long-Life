@@ -1,7 +1,8 @@
+import { LoaderComponent } from './../../common/loader/loader.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { StorageServiceUser } from '../../auth/auth';
 import { ToastrService } from 'ngx-toastr';
@@ -29,12 +30,19 @@ interface DataItem {
   servicedVendor: string;
   updatedAt: string;
   userId: number;
+  amount: number | null;
 }
 
 @Component({
   selector: 'app-viewservice',
   standalone: true,
-  imports: [NzTableModule, CommonModule, ReactiveFormsModule, NzModalModule],
+  imports: [
+    NzTableModule,
+    CommonModule,
+    LoaderComponent,
+    ReactiveFormsModule,
+    NzModalModule,
+  ],
   templateUrl: './viewservice.component.html',
   styleUrl: './viewservice.component.scss',
 })
@@ -45,13 +53,17 @@ export class ViewserviceComponent {
   editData: any = {};
   editServiceForm: FormGroup;
 
+  id: string | null = null;
+  name: string | null | undefined = null;
+
   constructor(
     private router: Router,
     private http: HttpClient,
     private userStorage: StorageServiceUser,
     private toastr: ToastrService,
     private fb: FormBuilder,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private route: ActivatedRoute
   ) {
     this.editServiceForm = this.fb.group({
       name: [{ value: '', disabled: true }, Validators.required],
@@ -64,6 +76,7 @@ export class ViewserviceComponent {
       servicedBy: [''],
       servicedVendor: [''],
       notes: [''],
+      amount: [''],
     });
   }
 
@@ -75,8 +88,6 @@ export class ViewserviceComponent {
     );
     this.http.delete(`http://localhost:3000/services/${id}`).subscribe({
       next: (data: any) => {
-        console.log(data);
-        // this.router.navigateByUrl('/view-service');
         this.toastr.success(data?.message, 'Success');
         this.fetchViewSerices();
         this.loading = false;
@@ -109,9 +120,8 @@ export class ViewserviceComponent {
     this.loading = true;
     const values = this.editServiceForm.value;
     const userData = this.userStorage.getCurrentUser();
-    console.log('values-<', values);
     const data = {
-      userId: userData?.id || null,
+      serviceId: this.editData.id,
       name: this.editData?.name || '',
       lineItemId: this.editData?.LineItem?.id || null,
       servicedDate: values?.servicedDate || '',
@@ -119,6 +129,7 @@ export class ViewserviceComponent {
       servicedContactNumber: values?.servicedContactNumber || null,
       servicedVendor: values?.servicedVendor || '',
       nextServiceDate: values?.nextServiceDate || '',
+      amount: values?.amount || '',
     };
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -130,8 +141,6 @@ export class ViewserviceComponent {
       })
       .subscribe({
         next: (data: any) => {
-          console.log(data);
-          // this.router.navigateByUrl('/view-service');
           this.toastr.success(data?.message, 'Success');
           this.fetchViewSerices();
           this.loading = false;
@@ -169,43 +178,49 @@ export class ViewserviceComponent {
       servicedBy: this.editData.servicedBy,
       servicedVendor: this.editData.servicedVendor,
       notes: this.editData.notes,
+      amount: this.editData.amount,
     });
-
-    console.log('edit->', this.editData);
   }
 
-  handleOk(): void {
-    // console.log('Button ok clicked!');
-    // this.isVisible = false;
-  }
+  handleOk(): void {}
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 
-  fetchViewSerices() {
+  fetchViewSerices(id?: any) {
     this.loading = true;
     // const headers = new HttpHeaders().set(
     //   'Authorization',
     //   `${window.localStorage.getItem('auth_token')}`
     // );
-    this.http.get('http://localhost:3000/services').subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.listOfData = data;
-        // this.categories = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.log(err);
-        this.loading = false;
-      },
-    });
+    this.http
+      .get(
+        `http://localhost:3000/services${
+          id && id != 0 ? `?categoryId=${id}` : ''
+        }`
+      )
+      .subscribe({
+        next: (data: any) => {
+          this.listOfData = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.loading = false;
+        },
+      });
   }
 
   ngOnInit() {
-    this.fetchViewSerices();
+    this.route.paramMap.subscribe((params) => {
+      this.id = params.get('id');
+      const nameValue = params.get('name') || params.get('type');
+      this.name =
+        nameValue === 'all' ? 'View Service' : nameValue?.split('-').join(' ');
+      this.fetchViewSerices(this.id);
+    });
+    this.fetchViewSerices(this.id);
   }
 
   formatDate(date: string, formatString: string = 'dd/MM/yyyy'): string {
@@ -249,27 +264,31 @@ export class ViewserviceComponent {
         a.LineItem.name.localeCompare(b.LineItem.name),
       priority: 2,
     },
-    {
-      title: 'Serviced By',
-      compare: (a: DataItem, b: DataItem) =>
-        a.LineItem.name.localeCompare(b.LineItem.name),
-      priority: 1,
-    },
-    {
-      title: 'Contact Number',
-      compare: (a: DataItem, b: DataItem) =>
-        a.LineItem.name.localeCompare(b.LineItem.name),
-      priority: 1,
-    },
+    // {
+    //   title: 'Serviced By',
+    //   compare: (a: DataItem, b: DataItem) =>
+    //     a.LineItem.name.localeCompare(b.LineItem.name),
+    //   priority: 1,
+    // },
+    // {
+    //   title: 'Contact Number',
+    //   compare: (a: DataItem, b: DataItem) =>
+    //     a.LineItem.name.localeCompare(b.LineItem.name),
+    //   priority: 1,
+    // },
     {
       title: 'Serviced Vendor',
       compare: (a: DataItem, b: DataItem) =>
         a.servicedVendor.localeCompare(b.servicedVendor),
       priority: 1,
     },
+    {
+      title: 'Amount',
+      compare: (a: DataItem, b: DataItem) =>
+        a.servicedVendor.localeCompare(b.servicedVendor),
+      priority: 1,
+    },
   ];
 
-  deleteRow(id: string): void {
-    console.log('delete');
-  }
+  deleteRow(id: string): void {}
 }

@@ -7,6 +7,11 @@ import { AddserviceComponent } from './pages/addservice/addservice.component';
 import { ViewserviceComponent } from './pages/viewservice/viewservice.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { UserGuard } from './auth/userauth';
+import { AdminGuard } from './auth/adminauth';
+import { AdminhomeComponent } from './pages/admin/adminhome/adminhome.component';
+import { AdmindashboardComponent } from './pages/admin/admindashboard/admindashboard.component';
+import { UsersComponent } from './pages/admin/users/users.component';
+import { FindserviceComponent } from './pages/findservice/findservice.component';
 
 export const routes: Routes = [
   {
@@ -34,15 +39,34 @@ export const routes: Routes = [
         component: AddserviceComponent,
       },
       {
-        path: 'view-service',
+        path: 'find-service',
+        component: FindserviceComponent,
+      },
+      {
+        path: 'view-service/:id/:name',
         component: ViewserviceComponent,
       },
       { path: 'profile', component: ProfileComponent },
-      { path: '**', redirectTo: '/login' },
+      { path: '**', redirectTo: '/dashboard' },
     ],
   },
   {
-    path: 'home',
-    component: DashboardComponent,
+    path: 'admindashboard',
+    component: AdminhomeComponent,
+    canActivate: [AdminGuard],
+    children: [
+      {
+        path: '',
+        component: AdmindashboardComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+
+      { path: 'profile', component: ProfileComponent },
+      { path: '**', redirectTo: '/admindashboard' },
+    ],
   },
 ];

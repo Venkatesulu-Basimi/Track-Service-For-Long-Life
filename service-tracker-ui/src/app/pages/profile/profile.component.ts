@@ -11,13 +11,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from '../../common/loader/loader.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NzAvatarModule, CommonModule, ReactiveFormsModule],
+  imports: [NzAvatarModule, CommonModule, LoaderComponent, ReactiveFormsModule],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'], // Corrected styleUrl to styleUrls
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   loading = false;
@@ -45,8 +46,8 @@ export class ProfileComponent implements OnInit {
   ) {
     this.profileForm = this.fb.group({
       userName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]], // Corrected async validator issue
-      phoneNumber: ['', [Validators.minLength(10), Validators.maxLength(10)]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: [''],
       country: [''],
       dateOfBirth: [''],
       pinCode: [''],
@@ -62,7 +63,7 @@ export class ProfileComponent implements OnInit {
         ? new Date(data.dateOfBirth).toISOString().split('T')[0]
         : '',
       country: data.country,
-      pinCode: data.pincode,
+      pinCode: data.pinCode,
     });
     this.loading = false;
   }
@@ -104,6 +105,7 @@ export class ProfileComponent implements OnInit {
         this.profileData = data;
         console.log('profileData->', this.profileData);
         this.handleProfileData(data);
+        this.loading = false;
       },
       error: (err) => {
         console.log(err);
