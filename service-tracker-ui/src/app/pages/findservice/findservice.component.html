@@ -1,0 +1,35 @@
+<div>
+    <app-loader *ngIf="loading"></app-loader>
+    <form [formGroup]="filterData" (ngSubmit)="submitForm()">
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <input type="text" formControlName="searchText" class="form-control" id="name" placeholder="Search Text" />
+            </div>
+            <div class="mb-3 col-md-3">
+                <input type="text" formControlName="location" class="form-control" id="name" placeholder="location" />
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="card m-3 col-md-4 card-body-wrapper" style="width: 23rem" *ngFor="let data of totalData">
+            <div class="card-body">
+                <h5 class="card-title">{{ data?.title || "-" }}</h5>
+                <h6 class="card-subtitle text-card mb-2 card-header-wrapper text-muted">
+                    {{ data?.type || "-" }}
+                </h6>
+                <p class="card-text text-card" *ngIf="data?.rating">
+                    Rating: {{ data?.rating || "-" }}/5 {{ data?.reviews_original }} Reviews
+                </p>
+                <p class="card-text text-card" *ngIf="data?.address">
+                    Address: {{ data?.address || "-" }}
+                </p>
+                <p class="card-text text-card" *ngIf="data?.phone">
+                    Phone: {{ data?.phone || "-" }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

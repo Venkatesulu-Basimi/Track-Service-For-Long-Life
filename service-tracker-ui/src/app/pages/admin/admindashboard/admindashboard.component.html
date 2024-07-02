@@ -6,16 +6,16 @@
                 <div class="card-wrapper total-services-wraper">
                     <div class="inside-card">
                         <div>
-                            <p class="text-card">Total Services</p>
+                            <p class="text-card">Total Service</p>
                             <p class="text-card money-card">
-                                {{ totalDashData.totalServiceCount || "-" }}
+                                {{ totalDashData?.totalServiceCount || "-" }}
                             </p>
                         </div>
                         <div>
                             <nz-avatar [nzSize]="54" nzText="T" style="background-color: #87d068; font-size: 30px"></nz-avatar>
                         </div>
                     </div>
-                    <span>These are the your total services</span>
+                    <span>These are the total services</span>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
@@ -24,7 +24,7 @@
                         <div>
                             <p class="text-card">Upcoming Services</p>
                             <p class="text-card money-card">
-                                {{ totalDashData.upcomingServicesCount || "-" }}
+                                {{ totalDashData?.upcomingServicesCount || "-" }}
                             </p>
                         </div>
                         <div>
@@ -40,14 +40,14 @@
                         <div>
                             <p class="text-card">Total Completed</p>
                             <p class="text-card money-card">
-                                {{ totalDashData.completedServicesCount || "-" }}
+                                {{ totalDashData?.completedServicesCount || "-" }}
                             </p>
                         </div>
                         <div>
                             <nz-avatar [nzSize]="54" nzText="T" style="background-color: #87d068; font-size: 30px"></nz-avatar>
                         </div>
                     </div>
-                    <span>/ {{ totalDashData.totalServiceCount || "-" }} services</span>
+                    <span>/ {{ totalDashData?.totalServiceCount || "-" }} services</span>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
@@ -56,7 +56,7 @@
                         <div>
                             <p class="text-card">Total Amount</p>
                             <p class="text-card money-card">
-                                €{{ totalDashData.totalAmount || 0 }}
+                                €{{ totalDashData?.totalAmount || 0 }}
                             </p>
                         </div>
                         <div>
@@ -70,31 +70,7 @@
     </div>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="upcoming-wrapper col-12 col-md-10 col-lg-8 mb-4">
-                <p class="header-wrapper-upcoming">Upcoming Services</p>
-                <nz-table #sortTable [nzData]="totalDashData.upcomingServices" nzTableLayout="fixed" [nzScroll]="{ y: '240px' }" [nzPageSize]="5">
-                    <thead>
-                        <tr>
-                            <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
-                                {{ column.title }}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of sortTable.data">
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.Category.name || "-" }}</td>
-                            <td>{{ data.LineItem.name || "-" }}</td>
-                            <td>
-                                {{ data.nextServiceDate ? formatDate(data.nextServiceDate) : "-" }}
-                            </td>
-                            <td>{{ data.servicedBy || "-" }}</td>
-                            <td>{{ data.servicedContactNumber }}</td>
-                            <td>{{ data.servicedVendor }}</td>
-                        </tr>
-                    </tbody>
-                </nz-table>
-            </div>
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis"></apx-chart>
         </div>
     </div>
 </div>

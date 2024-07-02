@@ -1,0 +1,51 @@
+.card-wrapper {
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 5px 22px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    background-color: #ffffff;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.inside-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-card {
+    font-weight: 500;
+    font-size: 0.75rem;
+    line-height: 2.5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.money-card {
+    font-size: 2rem;
+    line-height: 1.2;
+    color: black;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 767.98px) {
+    .card-wrapper {
+        height: auto;
+    }
+}
+
+.card-body-wrapper {
+    font-size: 2rem;
+    line-height: 1.2;
+    color: black;
+    margin-bottom: 15px;
+    background: #fee4cb !important;
+    border: none;
+    border-radius: 20px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+}

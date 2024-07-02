@@ -1,6 +1,7 @@
 <div class="upcoming-wrapper col-sm-12">
-    <p class="header-wrapper-upcoming">Services</p>
-    <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed" [nzScroll]="{ y: '240px' }" [nzPageSize]="5">
+    <app-loader *ngIf="loading"></app-loader>
+    <p class="header-wrapper-upcoming">{{ name || "Services" }}</p>
+    <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed" [nzScroll]="{ y: '100%' }" [nzPageSize]="10">
         <thead>
             <tr>
                 <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
@@ -17,12 +18,11 @@
                 <td>{{ data.LineItem.name }}</td>
                 <td>{{ formatDate(data.servicedDate) }}</td>
                 <td>{{ formatDate(data.nextServiceDate) }}</td>
-                <td>{{ data.servicedBy }}</td>
-                <td>{{ data.servicedContactNumber }}</td>
                 <td>{{ data.servicedVendor }}</td>
+                <td>{{ data.amount || "-" }}</td>
                 <td>
-                    <a (click)="warning(data.id)">Delete</a> |
-                    <a (click)="showModal(data)">Edit</a>
+                    <a (click)="warning(data.id)" class="text-danger">Delete</a> |
+                    <a (click)="showModal(data)" class="text-info">Edit</a>
                 </td>
             </tr>
         </tbody>
@@ -85,6 +85,10 @@
                         </div>
                     </div>
                     <div class="form-floating mb-3">
+                        <input type="text" formControlName="amount" class="form-control" id="amount" placeholder="Amount" />
+                        <label for="amount">Amount</label>
+                    </div>
+                    <div class="form-floating mb-3">
                         <input type="text" formControlName="servicedContactNumber" class="form-control" id="servicedContactNumber" placeholder="Contact Number" />
                         <label for="servicedContactNumber">Contact Number</label>
                         <div *ngIf="
@@ -126,7 +130,7 @@
 
                     <div class="form-floating mb-3">
                         <textarea class="form-control" formControlName="notes" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                        <label for="floatingTextarea2">Notes</label>
+                        <label for="notes">Notes</label>
                     </div>
                     <div class="submit-button-wrapper d-flex justify-content-end">
                         <button type="submit" [ngClass]="['btn', 'btn-primary', 'p-3']" [disabled]="!editServiceForm.valid">

@@ -1,90 +1,151 @@
 <div class="d-flex row">
-    <div class="custom-profile-wrapper col-md-4 col-lg-4 col-sm-12">
-        <div class="profile-details">
-            <nz-avatar [nzSize]="104" nzIcon="user" nzSrc="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671122.jpg" nzSize="large"></nz-avatar>
-            <p class="header-name">{{ profileData.userName || "-" }}</p>
-            <p class="subheader">{{ profileData.email || "-" }}</p>
-            <p class="subheader">{{ profileData.country || "-" }}</p>
-        </div>
-
-        <div class="profile-image-wrapper">Upload Picture</div>
+  <app-loader *ngIf="loading"></app-loader>
+  <div class="custom-profile-wrapper col-md-4 col-lg-4 col-sm-12">
+    <div class="profile-details">
+      <nz-avatar
+        [nzSize]="104"
+        nzIcon="user"
+        nzGap="1"
+        [nzText]="profileData.userName[0] || 'S'"
+        nzSize="large"
+      ></nz-avatar>
+      <p class="header-name">{{ profileData.userName || "-" }}</p>
+      <p class="subheader">{{ profileData.email || "-" }}</p>
+      <p class="subheader">{{ profileData.country || "-" }}</p>
     </div>
-    <div class="card-wrapper col-md-5 col-lg-6 col-sm-12">
-        <div class="header-wrapper">
-            <span>Profile</span>
-        </div>
-        <div class="form-wrapper-service row">
-            <form [formGroup]="profileForm" class="form-horizontal" (ngSubmit)="submitForm()">
-                <div class="d-flex flex-wrap">
-                    <div class="form-floating mb-3 mr-3 col-sm-12 col-lg-5">
-                        <input type="text" formControlName="userName" class="form-control" id="userName" placeholder="Name" />
-                        <label for="userName">Name</label>
-                        <div *ngIf="
+
+    <div class="profile-image-wrapper">Your Profile</div>
+  </div>
+  <div class="card-wrapper col-md-5 col-lg-6 col-sm-12">
+    <div class="header-wrapper">
+      <span>Profile</span>
+    </div>
+    <div class="form-wrapper-service row">
+      <form
+        [formGroup]="profileForm"
+        class="form-horizontal"
+        (ngSubmit)="submitForm()"
+      >
+        <div class="d-flex flex-wrap">
+          <div class="form-floating mb-3 mr-3 col-sm-12 col-lg-5">
+            <input
+              type="text"
+              formControlName="userName"
+              class="form-control"
+              id="userName"
+              placeholder="Name"
+            />
+            <label for="userName">Name</label>
+            <div
+              *ngIf="
                 profileForm.get('userName')?.invalid &&
                 (profileForm.get('userName')?.touched ||
                   profileForm.get('userName')?.dirty)
-              " class="text-danger">
-                            Name is required.
-                        </div>
-                    </div>
-                    <div class="form-floating mb-3 col-sm-12 col-lg-5">
-                        <input type="date" formControlName="dateOfBirth" class="form-control" id="dateOfBirth" placeholder="Date of Birth" />
-                        <label for="dateOfBirth">Date of Birth</label>
-                    </div>
-                    <div class="form-floating mb-3 col-sm-12 col-lg-5">
-                        <input type="email" formControlName="email" class="form-control" id="email" placeholder="Email Address" />
-                        <label for="email">Email Address</label>
-                        <div *ngIf="
+              "
+              class="text-danger"
+            >
+              Name is required.
+            </div>
+          </div>
+          <div class="form-floating mb-3 col-sm-12 col-lg-5">
+            <input
+              type="date"
+              formControlName="dateOfBirth"
+              class="form-control"
+              id="dateOfBirth"
+              placeholder="Date of Birth"
+            />
+            <label for="dateOfBirth">Date of Birth</label>
+          </div>
+          <div class="form-floating mb-3 col-sm-12 col-lg-5">
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control"
+              id="email"
+              placeholder="Email Address"
+            />
+            <label for="email">Email Address</label>
+            <div
+              *ngIf="
                 profileForm.get('email')?.invalid &&
                 (profileForm.get('email')?.touched ||
                   profileForm.get('email')?.dirty)
-              " class="text-danger">
-                            <div *ngIf="profileForm.get('email')?.errors?.['required']">
-                                Email is required.
-                            </div>
-                            <div *ngIf="profileForm.get('email')?.errors?.['email']">
-                                Please enter a valid email address.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-floating mb-3 col-sm-12 col-lg-5">
-                        <input type="string" formControlName="phoneNumber" class="form-control" id="phoneNumber" placeholder="Phone Number" />
-                        <label for="phoneNumber">Phone Number</label>
-                        <div *ngIf="
+              "
+              class="text-danger"
+            >
+              <div *ngIf="profileForm.get('email')?.errors?.['required']">
+                Email is required.
+              </div>
+              <div *ngIf="profileForm.get('email')?.errors?.['email']">
+                Please enter a valid email address.
+              </div>
+            </div>
+          </div>
+          <div class="form-floating mb-3 col-sm-12 col-lg-5">
+            <input
+              type="string"
+              formControlName="phoneNumber"
+              class="form-control"
+              id="phoneNumber"
+              placeholder="Phone Number"
+            />
+            <label for="phoneNumber">Phone Number</label>
+            <div
+              *ngIf="
                 profileForm.get('phoneNumber')?.invalid &&
                 (profileForm.get('phoneNumber')?.touched ||
                   profileForm.get('phoneNumber')?.dirty)
-              " class="text-danger">
-                            <div *ngIf="profileForm.get('phoneNumber')?.errors?.['required']">
-                                Phone number is required.
-                            </div>
-                            <div *ngIf="profileForm.get('phoneNumber')?.errors?.['minlength'] || profileForm.get('phoneNumber')?.errors?.['maxlength']">
-                                Phone number must be 10 digits long.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-floating mb-3 col-sm-12 col-lg-5">
-                        <input type="text" formControlName="country" class="form-control" id="country" placeholder="Country" />
-                        <label for="country">Country</label>
-                        <div *ngIf="
+              "
+              class="text-danger"
+            >
+              <div *ngIf="profileForm.get('phoneNumber')?.errors?.['required']">
+                Phone number is required.
+              </div>
+              <div
+                *ngIf="profileForm.get('phoneNumber')?.errors?.['minlength'] || profileForm.get('phoneNumber')?.errors?.['maxlength']"
+              >
+                Phone number must be 10 digits long.
+              </div>
+            </div>
+          </div>
+          <div class="form-floating mb-3 col-sm-12 col-lg-5">
+            <input
+              type="text"
+              formControlName="country"
+              class="form-control"
+              id="country"
+              placeholder="Country"
+            />
+            <label for="country">Country</label>
+            <div
+              *ngIf="
                 profileForm.get('country')?.invalid &&
                 (profileForm.get('country')?.touched ||
                   profileForm.get('country')?.dirty)
-              " class="text-danger">
-                            Country is required.
-                        </div>
-                    </div>
-                    <div class="form-floating mb-3 col-sm-12 col-lg-5">
-                        <input type="text" formControlName="pinCode" class="form-control" id="pinCode" placeholder="Pincode" />
-                        <label for="pinCode">Pincode</label>
-                    </div>
-                </div>
-            </form>
+              "
+              class="text-danger"
+            >
+              Country is required.
+            </div>
+          </div>
+          <div class="form-floating mb-3 col-sm-12 col-lg-5">
+            <input
+              type="text"
+              formControlName="pinCode"
+              class="form-control"
+              id="pinCode"
+              placeholder="Pincode"
+            />
+            <label for="pinCode">Pincode</label>
+          </div>
         </div>
-        <div class="submit-button-wrapper">
-            <button type="button" (click)="submitForm()" class="btn btn-primary p-3">
+      </form>
+    </div>
+    <div class="submit-button-wrapper">
+      <button type="button" (click)="submitForm()" class="btn btn-primary p-3">
         Save details
       </button>
-        </div>
     </div>
+  </div>
 </div>

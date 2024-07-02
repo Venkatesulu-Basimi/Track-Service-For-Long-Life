@@ -86,6 +86,7 @@ export class AddserviceComponent {
       nextServiceDate: new FormControl(''),
       notes: new FormControl(''),
       name: new FormControl('', [Validators.required]),
+      amount: new FormControl(null),
     });
 
     this.addServiceForm.valueChanges.subscribe(() => {
@@ -192,6 +193,7 @@ export class AddserviceComponent {
       servicedContactNumber: values?.servicedContactNumber || null,
       servicedVendor: values?.servicedVendor || '',
       nextServiceDate: values?.nextServiceDate || '',
+      amount: values?.amount || 0,
     };
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -201,9 +203,21 @@ export class AddserviceComponent {
       .post('http://localhost:3000/services', data, { headers })
       .subscribe({
         next: (data: any) => {
-          console.log(data);
-          this.router.navigateByUrl('/view-service');
           this.toastr.success(data?.message, 'Success');
+          this.addServiceForm = new FormGroup({
+            Category: new FormControl('', [Validators.required]),
+            subCategory: new FormControl('', [Validators.required]),
+            lineItemId: new FormControl('', [Validators.required]),
+            servicedDate: new FormControl(null, [Validators.required]),
+            servicedBy: new FormControl(null),
+            servicedContactNumber: new FormControl(''),
+            servicedVendor: new FormControl(''),
+            nextServiceDate: new FormControl(''),
+            notes: new FormControl(''),
+            name: new FormControl('', [Validators.required]),
+            amount: new FormControl(null),
+          });
+
           this.loading = false;
         },
         error: (err) => {
